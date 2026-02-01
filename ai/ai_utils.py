@@ -7,7 +7,7 @@ from PIL import Image
 # -----------------------------
 # CONFIG
 # -----------------------------
-DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+DEVICE = torch.device("cpu")
 IMG_SIZE = 224
 TEMPERATURE = 1.3   # ✅ YOU CHOSE THIS (keep it)
 
