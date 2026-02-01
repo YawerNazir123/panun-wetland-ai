@@ -1,7 +1,7 @@
---extra-index-url https://download.pytorch.org/whl/cpu
 flask
-torch==2.1.0+cpu
-torchvision==0.16.0+cpu
+gradio
+torch
+torchvision
 timm
 pillow
 numpy
