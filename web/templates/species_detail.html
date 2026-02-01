@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+.detail-container {
+    max-width: 900px;
+    margin: 80px auto;
+    padding: 40px;
+    border-radius: 26px;
+    background: linear-gradient(135deg, #ffffff, #f1fbf9);
+    box-shadow: 0 25px 60px rgba(0,0,0,0.12);
+}
+
+.detail-img {
+    width: 100%;
+    height: 360px;
+    border-radius: 22px;
+    background: linear-gradient(135deg, #cce7e3, #9dd4cc);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 90px;
+    margin-bottom: 25px;
+    overflow: hidden;
+}
+
+.detail-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.meta {
+    font-size: 15px;
+    color: #444;
+    margin-top: 12px;
+}
+
+.badge {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 8px 18px;
+    border-radius: 20px;
+    background: #d4f4e2;
+    color: #176a3a;
+    font-weight: bold;
+}
+</style>
+
+<div class="detail-container">
+
+   <div class="detail-img">
+    {% if bird.image %}
+        <img src="{{ url_for('static', filename=bird.image) }}"
+             alt="{{ bird.common_name }}">
+    {% else %}
+        <span class="species-fallback">🦆</span>
+    {% endif %}
+</div>
+
+    <h2>{{ bird["common_name"] }}</h2>
+    <em>{{ bird["scientific_name"] }}</em>
+
+    <div class="meta">
+        <p><strong>Season:</strong> {{ bird["season"] }}</p>
+        <p><strong>Status:</strong> {{ bird["status"] }}</p>
+    </div>
+
+    <div class="badge">
+        Chatlam Wetland Species
+    </div>
+
+</div>
+
+{% endblock %}

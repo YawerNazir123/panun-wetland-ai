@@ -1,0 +1,379 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+
+.identify-page {
+    padding: 60px 20px;
+    max-width: 1100px;
+    margin: auto;
+}
+
+.mode-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.mode-card {
+    background: linear-gradient(135deg, #061919, #007e7a);
+    border-radius: 22px;
+    padding: 35px;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+    transition: transform 0.4s;
+}
+
+.mode-card:hover {
+    transform: translateY(-10px);
+}
+
+.mode-card h3 {
+    color: #f8f8f8;
+    margin-bottom: 10px;
+}
+
+
+.upload-box {
+    
+    border-radius: 24px;
+    padding: 50px;
+    text-align: center;
+    box-shadow: 0 18px 45px rgba(0,0,0,0.1);
+    margin-bottom: 50px;
+}
+
+.upload-box input {
+    margin-top: 20px;
+}
+
+.result-card {
+    background: linear-gradient(135deg, #f0faf8, #d9f0ec);
+    border-radius: 26px;
+    padding: 40px;
+    box-shadow: 0 22px 55px rgba(0,0,0,0.12);
+}
+
+.result-row {
+    margin-bottom: 18px;
+
+.confidence-bar {
+    height: 14px;
+    border-radius: 10px;
+    background: #cce7e3;
+    overflow: hidden;
+}
+
+.confidence-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #1f6f6d, #4aa3a1);
+}
+
+
+.status-badge {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.status-known {
+    background: #d4f4e2;
+    color: #176a3a;
+}
+
+.status-likely {
+    background: #fff3cd;
+    color: #7a5a00;
+}
+
+.status-new {
+    background: #f8d7da;
+    color: #842029;
+}
+
+.file-drop {
+    display: block;
+    cursor: pointer;
+}
+
+.file-drop input {
+    display: none;
+}
+
+.file-ui {
+    margin: 25px auto;
+    padding: 35px;
+    border-radius: 22px;
+    background: linear-gradient(135deg, #f1fbf9, #e0f2ee);
+    border: 2px dashed #9dd4cc;
+    max-width: 420px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.file-ui:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+}
+
+.file-icon {
+    font-size: 42px;
+    margin-bottom: 10px;
+}
+
+.file-text {
+    font-size: 15px;
+    color: #0f3d3e;
+}
+
+.identify-btn {
+    margin-top: 25px;
+    padding: 14px 36px;
+    border-radius: 30px;
+    border: none;
+    background: linear-gradient(135deg, #1f6f6d, #4aa3a1);
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.identify-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+}
+
+.result-image {
+    width: 100%;
+    max-width: 360px;
+    margin: 0 auto 25px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+}
+
+.result-image img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+
+.result-main {
+    font-size: 22px;
+    color: #0f3d3e;
+    font-weight: bold;
+}
+
+.confidence-fill {
+    animation: fillBar 1.4s ease forwards;
+}
+
+@keyframes fillBar {
+    from { width: 0; }
+}
+.file-selected {
+    background: linear-gradient(135deg, #e6f7f1, #cfeee6);
+    border-color: #4aa3a1;
+}
+.identify-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+
+
+</style>
+
+<div class="identify-page">
+
+    <h2>Identify a Bird</h2>
+    <p>Upload a photo or capture a live image to identify migratory birds of Chatlam Wetland.</p>
+
+   
+    <div class="mode-grid">
+        <div class="mode-card active" onclick="showUpload()">
+            <h3>Upload Image</h3>
+            <p style="color: #ffffff;">Select a bird photo from your device</p>
+        </div>
+
+        <div class="mode-card" onclick="showCamera()">
+            <h3>Live Camera</h3>
+            <p style="color: #ffffff;">Capture bird image in real time</p>
+        </div>
+    </div>
+
+    <div class="upload-box" id="uploadBox">
+        <h3>Upload Bird Image</h3>
+
+        <form method="POST" enctype="multipart/form-data" onsubmit="showLoading()">
+
+            <label class="file-drop">
+                <input type="file" name="image" accept="image/*" required onchange="showFileName(this)">
+                <div class="file-ui" id="file-ui">
+                    <div class="file-icon" id="file-icon">📷</div>
+                    <div class="file-text" id="file-text">
+                        Click to choose an image<br>
+                        <small>JPG, PNG supported</small>
+                    </div>
+                </div>
+            </label>
+
+            <button class="identify-btn" id="identify-btn" type="submit" disabled>
+                Identify Bird
+            </button>
+
+        </form>
+    </div>
+
+
+    <div class="upload-box" id="cameraBox" style="display:none;">
+        <h3>Live Camera</h3>
+
+        <div style="text-align:center; margin-bottom:16px;">
+            <video id="video" width="420" height="300" autoplay
+       style="border-radius:20px; background:#000;"></video>
+        </div>
+
+        <div style="text-align:center; margin-bottom:12px;">
+            <button class="identify-btn" type="button" onclick="capture()">📸 Capture</button>
+        </div>
+
+        <form method="POST" enctype="multipart/form-data" onsubmit="showLoading()">
+            <input type="file" name="image" id="cameraInput" hidden required>
+            <button class="identify-btn" type="submit">Identify Bird</button>
+        </form>
+
+       <canvas id="canvas" width="420" height="300"
+        style="display:none; border-radius:20px;"></canvas>
+    </div>
+
+    {% if result %}
+    <div class="result-card">
+
+        {% if result.image_url %}
+        <div class="result-image">
+            <img src="{{ result.image_url }}">
+        </div>
+        {% endif %}
+
+        <div class="result-row">
+            <strong>Predicted Species</strong><br>
+            <span class="result-main">{{ result.species }}</span>
+        </div>
+
+        <div class="result-row">
+            <em>{{ result.scientific }}</em>
+        </div>
+
+        <div class="result-row">
+            <strong>Confidence</strong>
+            <div class="confidence-bar">
+                <div class="confidence-fill" style="width: {{ result.confidence }}%"></div>
+            </div>
+            <small>{{ result.confidence }}%</small>
+        </div>
+
+        <div class="result-row">
+            <span class="status-badge">
+                {{ result.status }}
+            </span>
+        </div>
+
+    </div>
+    {% endif %}
+
+</div>
+
+<script>
+function showUpload() {
+    document.getElementById("uploadBox").style.display = "block";
+    document.getElementById("cameraBox").style.display = "none";
+}
+
+function showCamera() {
+    document.getElementById("uploadBox").style.display = "none";
+    document.getElementById("cameraBox").style.display = "block";
+    startCamera();
+}
+
+function showFileName(input) {
+    if (input.files && input.files[0]) {
+        document.getElementById("file-icon").innerText = "✅";
+        document.getElementById("file-text").innerHTML =
+            "Image selected:<br><small>" + input.files[0].name + "</small>";
+        document.getElementById("identify-btn").disabled = false;
+    }
+}
+
+function showLoading() {
+    const btns = document.querySelectorAll(".identify-btn");
+    btns.forEach(b => {
+        b.innerText = "Analyzing...";
+        b.disabled = true;
+    });
+}
+
+let streamStarted = false;
+
+
+let cameraStream = null;
+
+
+function startCamera() {
+    if (cameraStream) return;
+
+    navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+            cameraStream = stream;
+            document.getElementById("video").srcObject = stream;
+        })
+        .catch(() => {
+            alert("Camera access denied or not available.");
+        });
+}
+
+
+function capture() {
+    const video = document.getElementById("video");
+    const canvas = document.getElementById("canvas");
+    const input = document.getElementById("cameraInput");
+    const ctx = canvas.getContext("2d");
+
+    
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    
+    if (cameraStream) {
+        cameraStream.getTracks().forEach(track => track.stop());
+        cameraStream = null;
+    }
+
+    video.style.display = "none";
+    canvas.style.display = "block";
+
+
+    canvas.toBlob(blob => {
+        const file = new File([blob], "camera_capture.jpg", {
+            type: "image/jpeg"
+        });
+
+        const dt = new DataTransfer();
+        dt.items.add(file);
+        input.files = dt.files;
+    }, "image/jpeg");
+
+    event.target.innerText = "Captured ✓";
+    event.target.disabled = true;
+}
+
+
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+.admin-container {
+    max-width: 1100px;
+    margin: 60px auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 14px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+th {
+    background: #f0faf8;
+}
+
+a.edit-btn {
+    padding: 6px 14px;
+    background: #1f6f60;
+    color: white;
+    border-radius: 14px;
+    text-decoration: none;
+    font-size: 13px;
+}
+</style>
+
+<div class="admin-container">
+    <h2>Admin – Manage Species</h2>
+    <p>Edit species details and image URLs.</p>
+
+    <table>
+        <tr>
+            <th>Common Name</th>
+            <th>Scientific Name</th>
+            <th>Status</th>
+            <th>Season</th>
+            <th>Action</th>
+        </tr>
+
+        {% for bird in species %}
+        <tr>
+            <td>{{ bird.common_name }}</td>
+            <td><em>{{ bird.scientific_name }}</em></td>
+            <td>{{ bird.status }}</td>
+            <td>{{ bird.season }}</td>
+            <td>
+                <a class="edit-btn" href="/admin/species/edit/{{ bird.id }}">Edit</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+{% endblock %}

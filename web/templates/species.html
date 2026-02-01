@@ -1,0 +1,199 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+.species-page {
+    background: rgba(255,255,255,0.04);
+    border-radius: 30px;
+}
+
+
+.filter-bar {
+    background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0.15),
+        rgba(255,255,255,0.05)
+    );
+    backdrop-filter: blur(6px);
+}
+.filter-bar {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 14px 20px;
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+}
+
+.filter-bar select,
+.filter-bar button {
+    padding: 10px 16px;
+    border-radius: 18px;
+    border: none;
+    font-size: 14px;
+    outline: none;
+}
+
+.filter-bar select {
+    background: white;
+    box-shadow: inset 0 0 0 1px #d5ebe6;
+}
+
+.filter-bar button {
+    background: linear-gradient(135deg, #2d8f7a, #1f6f60);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.25s ease;
+}
+
+.filter-bar button:hover {
+    transform: scale(1.06);
+}
+
+
+.search-box {
+    max-width: 500px;
+    margin: 0 auto 40px;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 14px 20px;
+    border-radius: 30px;
+    border: 2px solid #cfe9e4;
+    font-size: 15px;
+    outline: none;
+}
+
+.search-box input:focus {
+    border-color: #1f6f6d;
+}
+
+
+.species-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 28px;
+}
+
+.species-card {
+    background: linear-gradient(135deg, #ffffff, #f1fbf9);
+    border-radius: 26px;
+    box-sizing: border-box;
+    padding: 18px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    cursor: pointer;
+}
+
+.species-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 35px 70px rgba(0,0,0,0.15);
+}
+
+.species-img {
+    height: 160px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #bfe6df, #9fd7ce);
+    display: flex;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+    transition: transform 0.4s ease;
+}
+
+
+
+.species-badge {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 6px 14px;
+    border-radius: 18px;
+    font-size: 12px;
+    background: #d4f4e2;
+    color: #176a3a;
+}
+.species-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+}
+.species-fallback {
+    font-size: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+
+</style>
+
+<div class="species-page">
+
+    <h2>Bird Species of Chatlam Wetland</h2>
+    <p>Search and explore migratory and resident birds recorded at Chatlam Wetland.</p>
+
+   
+    <form method="GET" class="filter-bar">
+        <select name="status">
+            <option value="">All Status</option>
+            <option value="Migratory">Migratory</option>
+            <option value="Resident">Resident</option>
+            <option value="Rare">Rare Migratory</option>
+        </select>
+
+        <select name="season">
+            <option value="">All Seasons</option>
+            <option value="Winter">Winter</option>
+            <option value="Summer">Summer</option>
+            <option value="Year-round">Year-round</option>
+        </select>
+
+        <button type="submit">Apply</button>
+    </form>
+
+    <form method="GET" class="search-box">
+    <input type="text"
+           name="q"
+           placeholder="Search species by name..."
+           value="{{ query or '' }}">
+    <button type="submit" class="search-btn">Search</button>
+</form>
+
+
+
+
+    <div class="species-grid">
+        {% for bird in species %}
+        <a href="/species/{{ bird.id }}" style="text-decoration:none; color:inherit;">
+            <div class="species-card">
+               <div class="species-img">
+    {% if bird.image %}
+        <img src="{{ url_for('static', filename=bird.image) }}"
+     alt="{{ bird.common_name }}">
+
+  {% else %}
+    <span class="species-fallback">🦆</span>
+{% endif %}
+
+</div>
+
+                <strong>{{ bird.common_name }}</strong><br>
+                <em>{{ bird.scientific_name }}</em>
+                <div class="species-badge">{{ bird.status }}</div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+
+    {% if not species %}
+        <p style="margin-top:30px;">No matching species found.</p>
+    {% endif %}
+
+</div>
+
+{% endblock %}

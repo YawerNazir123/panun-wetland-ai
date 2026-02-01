@@ -1,0 +1,258 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+
+.hero-wrapper {
+    position: relative;
+    height: 95vh;
+    width: 100%;
+    overflow: hidden;
+}
+
+
+.hero-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url("https://images.pexels.com/photos/206359/pexels-photo-206359.jpeg?cs=srgb&dl=pexels-pixabay-206359.jpg&fm=jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 1;
+}
+
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        rgba(0, 0, 0, 0.15),
+        rgba(0, 0, 0, 0.25)
+    );
+    z-index: 2;
+}
+
+
+.hero-content {
+    position: relative;
+    z-index: 3;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    
+    
+    padding: 20px;
+}
+
+.hero-content h1 {
+    font-size: 56px;
+    letter-spacing: 3px;
+    text-shadow: 0 6px 20px rgba(0,0,0,0.6);
+    color: #d9f0ec;
+}
+
+.hero-content p {
+    max-width: 700px;
+    margin-top: 25px;
+    font-size: 17px;
+    line-height: 1.6;
+    text-shadow: 0 4px 15px rgba(0,0,0,0.6);
+    color: #d9f0ec;
+}
+
+
+
+
+.hero h1 {
+    font-size: 52px;
+    letter-spacing: 3px;
+}
+
+.hero p {
+    max-width: 650px;
+    margin: 25px auto;
+    font-size: 17px;
+}
+
+/* ---------- STORY CARDS ---------- */
+.story-card {
+   background: linear-gradient(135deg, #061919, #007e7a);
+   
+    border-radius: 24px;
+    padding: 45px;
+    margin: 60px auto;
+    max-width: 1200px;
+
+    box-shadow:
+        0 20px 45px rgba(0,0,0,0.12),
+        inset 0 0 0 1px rgba(31,111,109,0.15);
+
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.story-card:hover {
+    transform: translateY(-10px);
+    box-shadow:
+        0 30px 65px rgba(0,0,0,0.18),
+        inset 0 0 0 1px rgba(31,111,109,0.25);
+}
+
+.story-card h2 {
+    color: #ffffff;
+    margin-bottom: 14px;
+}
+
+.story-card p {
+    color: #fefefe;
+    line-height: 1.8;
+    font-size: 15.5px;
+}
+
+.section {
+    padding: 60px 30px;
+    max-width: 1100px;
+    margin: auto;
+}
+
+.bird-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 30px;
+}
+
+.bird-card {
+   background: linear-gradient(135deg, #061919, #007e7a);
+    border-radius: 20px;
+    padding: 16px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+    transition: transform 0.4s;
+}
+
+.bird-card:hover {
+    transform: translateY(-8px);
+}
+
+.bird-img {
+    width: 100%;
+    height: 170px;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 12px;
+}
+
+.bird-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.thanks {
+    
+    background: linear-gradient(135deg, #061919, #007e7a);
+
+    padding: 35px;
+    border-radius: 16px;
+}
+
+
+.credit {
+    text-align: center;
+    font-size: 14px;
+    opacity: 0.85;
+    margin: 80px 0 40px;
+}
+</style>
+<div class="hero-wrapper">
+
+    <div class="hero-bg"></div>
+
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+        <h1>CHATLAM WETLAND</h1>
+        <p>
+            An AI-powered initiative to document, identify, and protect
+            migratory birds of Chatlam Wetland, Kashmir.
+        </p>
+    </div>
+
+</div>
+
+
+<div class="story-card">
+    <h2>Chatlam Wetland: Where Journeys Find Rest</h2>
+    <p>
+        Nestled in the Pampore region of Kashmir, Chatlam Wetland is a quiet refuge for migratory birds that cross continents in search of safety. Here, long journeys pause, life renews itself, and ancient flyways endure—reminding us that protecting Chatlam is protecting the rhythm of nature itself.
+    </p>
+</div>
+
+<div class="story-card">
+    <h2>Migratory Birds & Seasonal Rhythm</h2>
+    <p>
+       With the onset of winter, distant wings return to Chatlam, guided by ancient routes carved by climate, geography, and instinct. Their arrival marks the changing season and the timeless rhythm of nature that the wetland sustains.
+    </p>
+</div>
+
+
+<div class="section">
+    <h2>Rare Migratory Visitors</h2>
+
+    <div class="bird-grid">
+
+        <div class="bird-card">
+            <div class="bird-img">
+                <img src="https://cdn.download.ams.birds.cornell.edu/api/v2/asset/220104901/900">
+            </div>
+            <strong style="color: #f9fffe;">Smew</strong><br>
+            <em style="color: #f9fffe;">Mergellus albellus</em>
+        </div>
+
+        <div class="bird-card">
+            <div class="bird-img">
+                <img src="https://cdn.download.ams.birds.cornell.edu/api/v1/asset/44942811/480">
+            </div>
+            <strong style="color: #f9fffe;">Tufted Duck</strong><br>
+            <em style="color: #f9fffe;">Aythya fuligula</em>
+        </div>
+
+        <div class="bird-card">
+            <div class="bird-img">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/50/Aythya_nyroca_%28cropped%29.jpg">
+            </div>
+            <strong style="color: #f9fffe;">White-eyed Pochard</strong><br>
+            <em style="color: #f9fffe;">Aythya nyroca</em>
+        </div>
+
+        <div class="bird-card">
+            <div class="bird-img">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Bar-headed_Goose_-_St_James%27s_Park%2C_London_-_Nov_2006.jpg">
+            </div>
+            <strong style="color: #f9fffe;">Bar-headed Goose</strong><br>
+            <em style="color: #f9fffe;">Anser indicus</em>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="section">
+    <div class="thanks">
+        <h2 style="color: #f9fffe;">Conservation Acknowledgement</h2>
+        <p style="color: #f9fffe;">
+            We sincerely thank local NGOs, conservationists, and volunteers working to protect Chatlam Wetland Reserve—especially Wildlife Conservation Fund (WCF), Jammu & Kashmir Eco-Watch (JKEW), Kashmir Birdwatch, and the wider Wetlands of Pampore community network—for their consistent efforts in conservation awareness, clean-up initiatives, and biodiversity protection.<br>
+            A special note of gratitude to <strong>Nadeem Qadri</strong>, environmental lawyer and founder of the Wildlife Conservation Fund (WCF), for his sustained legal and community-led efforts to protect Kashmir’s fragile ecosystems—particularly the wetlands of Pampore, including Chatlam Wetland Reserve—and for consistently advocating restoration, biodiversity protection, and responsible waste management around these vital water bodies.
+        </p>
+    </div>
+</div>
+
+<div class="credit">
+    <p>
+        Developed by <strong>Shah Yawar</strong><br>
+        AI-based Migratory Bird Identification System – Chatlam Wetland
+    </p>
+</div>
+
+{% endblock %}

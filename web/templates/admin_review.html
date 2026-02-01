@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+.approve-btn {
+    background: linear-gradient(135deg, #2cc7a5, #168f7c);
+    color: #062220;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 18px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.reject-btn {
+    background: linear-gradient(135deg, #ff6b6b, #d64545);
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-left: 8px;
+}
+
+.admin-form input,
+.admin-form select {
+    padding: 8px 12px;
+    margin-right: 6px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+}
+</style>
+
+<h2>Pending Bird Observations</h2>
+
+{% for bird in pending %}
+<div class="glass-card" style="margin-bottom:30px;">
+
+    <img src="{{ url_for('static', filename=bird.image_path) }}"
+         style="max-width:260px;border-radius:14px;margin-bottom:12px;">
+
+    <p><strong>Predicted:</strong> {{ bird.predicted_name }}</p>
+    <p><strong>Confidence:</strong> {{ bird.confidence }}%</p>
+
+    <!-- APPROVE -->
+    <form method="POST"
+          action="/admin/approve/{{ bird.id }}"
+          class="admin-form"
+          style="display:inline-block;">
+
+        <input name="common_name" placeholder="Common Name" required>
+        <input name="scientific_name" placeholder="Scientific Name" required>
+
+        <select name="status">
+            <option value="Migratory">Migratory</option>
+            <option value="Resident">Resident</option>
+            <option value="Rare Migratory">Rare Migratory</option>
+        </select>
+
+        <select name="season">
+            <option value="Winter">Winter</option>
+            <option value="Summer">Summer</option>
+            <option value="Year-round">Year-round</option>
+        </select>
+
+        <button type="submit" class="approve-btn">
+            Approve & Add
+        </button>
+    </form>
+
+    <!-- REJECT -->
+    <form method="POST"
+          action="/admin/reject/{{ bird.id }}"
+          style="display:inline-block;">
+        <button type="submit" class="reject-btn">
+            Reject
+        </button>
+    </form>
+
+</div>
+{% endfor %}
+
+{% if not pending %}
+<p>No pending observations.</p>
+{% endif %}
+
+{% endblock %}
